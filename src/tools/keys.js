@@ -1,4 +1,4 @@
-export const API_KEY = "cXmPCNFHy2KcNXuVoAIn6aRLAvi8vRis";
+export const API_KEY = "bdSTDqFypro31YQAS0OI2gNdb4OwFutm";
 export const DEFAULT_DESTINATION = {
   Key: "215854",
   LocalizedName: "Tel Aviv",
