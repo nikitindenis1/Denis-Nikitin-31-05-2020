@@ -5,7 +5,7 @@ import { withRouter } from "react-router";
 import { FORECAST_ROUTE_WITH_ID } from "../../../tools/routes";
 import Fade from "react-reveal/Fade";
 import { SearchApi, getCurrentLocationApi } from "../../../api/api";
-import { isIOS } from 'react-device-detect';
+import { isIOS } from "react-device-detect";
 
 const ForecastSearch = (props) => {
   const { getForecast, showError } = props;
@@ -19,24 +19,23 @@ const ForecastSearch = (props) => {
   const ref = useRef();
   useOnClickOutside(ref, active ? () => setActive(false) : "");
 
-  //on mount, check if there is city name in the url.
-  //if yes, set the state with the city name, if not , running getCurrentLocation, in order to get user location
+  //on mount, check if there is city name and id in the url.
+  //if yes, set location, if not get location from user geolocation
   useEffect(() => {
-    let location_from_params = props.match.params.id;
-    if (location_from_params) {
-      setValue(location_from_params);
-       search(location_from_params, true);
-    }else{
-        getCurrentLocation();
+    console.log(props.match.params.id);
+    if (props.match.params.id) {
+      getlocationFromParams();
+    } else {
+      getCurrentLocation();
     }
-   
+
     return () => {};
   }, []);
 
   //getting user location
-  //if user blocking location service, we running the getDefaultLocation,
-  const getCurrentLocation = () => {  
-        if(isIOS) return    getDefaultLocation();
+  //if user blocking location service, we setting the default location,
+  const getCurrentLocation = () => {
+    if (isIOS) return handleSelect(DEFAULT_DESTINATION);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         async function (position) {
@@ -46,27 +45,26 @@ const ForecastSearch = (props) => {
           if (res.ok) {
             handleSelect(res.result);
           } else {
-            getDefaultLocation()
+            showError();
           }
         },
         function (error) {
-            getDefaultLocation()
+          handleSelect(DEFAULT_DESTINATION);
         }
       );
-    }else{
-        getDefaultLocation()
+    } else {
+      handleSelect(DEFAULT_DESTINATION);
     }
-    
-
   };
-
-  const getDefaultLocation = () => {
-    let location = DEFAULT_DESTINATION;
-    setValue(location);
-    //pushes the city name to the url as params
-    props.history.push(FORECAST_ROUTE_WITH_ID.replace(":id", location));
-    //calling search function, in order to get the default location details
-    search(location, true);
+  //get the name and key of the location from the params
+  const getlocationFromParams = () => {
+    let Key = props.match.params.id;
+    let LocalizedName = props.match.params.name;
+    let location = {
+      Key,
+      LocalizedName,
+    };
+    handleSelect(location);
   };
 
   const handleChange = (value) => {
@@ -74,7 +72,6 @@ const ForecastSearch = (props) => {
     setValue(value);
     //if the input value is not english letters, set the result list to empty array,
     //showing error
-
     if (language_error) setLangaugeError(false);
     var english = /^[a-zA-Z\s]*$/;
     if (value && !english.test(value)) {
@@ -88,8 +85,11 @@ const ForecastSearch = (props) => {
     //select one location from the list,
     if (location) {
       let name = location.LocalizedName;
+      let id = location.Key;
       //push the selected location name to the url params
-      props.history.push(FORECAST_ROUTE_WITH_ID.replace(":id", name));
+      props.history.push(
+        FORECAST_ROUTE_WITH_ID.replace(":name", name).replace(":id", id)
+      );
       setValue(name);
       //sending the selected location object to the main component in order to get the daily data,
       //and the current conditions
@@ -98,7 +98,7 @@ const ForecastSearch = (props) => {
     }
   };
 
-  const search = (value, return_value) => {
+  const search = (value) => {
     //making api request, in order to get the the autocmplete for the search input value
     //the timeout purpose is to wait 300 miliseconds before running the api request, after the user finishes typing,
     //the purpose is to prevent to frequent get requests.
@@ -107,14 +107,10 @@ const ForecastSearch = (props) => {
       const res = await SearchApi(value);
       if (res.ok) {
         setOptions(res.result);
-        //the return value run only ones, when component mounts, in order to set the selected location details when page loaded.
-        if (return_value) {
-          handleSelect(res.result[0]);
-        }
       } else {
         showError();
       }
-    }, 300);
+    }, 200);
     setSearchTimeout(timeout);
   };
 

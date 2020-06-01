@@ -36,7 +36,9 @@ const Favorites = (props) => {
 
  const toToCityDailyForecast = (elem) => {
      //select location and go to the home page -- /forecast
-    props.history.push(FORECAST_ROUTE_WITH_ID.replace(':id', elem.name))
+    props.history.push(FORECAST_ROUTE_WITH_ID
+      .replace(':name', elem.name)
+      .replace(':id', elem.key))
   }
 
 //create an api request from every favorite location, to get the current conditions

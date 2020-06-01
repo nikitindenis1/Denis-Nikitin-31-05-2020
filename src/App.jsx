@@ -16,6 +16,7 @@ import Navbar from "./components/navbar/Navbar";
 import Favorites from "./components/favorites/Favorites";
 import { useSelector } from "react-redux";
 import HandleError from "./components/parts/HandleError";
+import NoMatch from "./components/parts/NoMatch";
 
 
 function App(props) {
@@ -23,7 +24,9 @@ function App(props) {
   const [page_loaded, setPageLoaded] = useState(false)
   const handle_error = global.handle_error;
   useEffect(() => {
-    props.history.push(FORECAST_ROUTE)
+    let url = window.location.pathname.split('/')[1]
+    
+   if(!url) props.history.push(FORECAST_ROUTE)
     setPageLoaded(true)
      return () => {
        
@@ -45,6 +48,8 @@ function App(props) {
             render={() => <Forecast />}
           />
           <Route exact path={FAVORITES_ROUTE} render={() => <Favorites />} />
+
+          <Route component={NoMatch} />
         </Switch>
       </Router>
     </div> : null
