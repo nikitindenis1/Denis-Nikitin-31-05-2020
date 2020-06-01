@@ -15,7 +15,7 @@ const ForecastDay = ({ m, celsius }) => {
   //toggle day and night data
   const handleSelect = (value) => {
     if (!first_click) setFirstClick(true);
-    setImgLoaded(false);
+    // setImgLoaded(false);
     switch (value) {
       case "Day":
         setTemp(max_temp);

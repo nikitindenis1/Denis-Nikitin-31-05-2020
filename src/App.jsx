@@ -15,7 +15,7 @@ import {
 import Navbar from "./components/navbar/Navbar";
 import Favorites from "./components/favorites/Favorites";
 import { useSelector } from "react-redux";
-import HandleError from "./data/HandleError";
+import HandleError from "./components/parts/HandleError";
 
 
 function App(props) {

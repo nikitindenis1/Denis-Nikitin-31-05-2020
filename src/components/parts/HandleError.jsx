@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {  useDispatch } from "react-redux";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import CloseIcon from '@material-ui/icons/Close';
 const HandleError = ({ text }) => {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();

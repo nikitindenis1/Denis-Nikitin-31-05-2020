@@ -25,18 +25,20 @@ const ForecastSearch = (props) => {
     let location_from_params = props.match.params.id;
     if (location_from_params) {
       setValue(location_from_params);
-      return search(location_from_params, true);
+       search(location_from_params, true);
+    }else{
+        getCurrentLocation();
     }
-    getCurrentLocation();
+   
     return () => {};
   }, []);
 
   //getting user location
   //if user blocking location service, we running the getDefaultLocation,
   const getCurrentLocation = () => {  
-    
-    if (!isIOS && "geolocation" in navigator) {
-      navigator.geolocation.watchPosition(
+        if(isIOS) return    getDefaultLocation();
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
         async function (position) {
           let lat = position.coords.latitude;
           let long = position.coords.longitude;
@@ -44,16 +46,18 @@ const ForecastSearch = (props) => {
           if (res.ok) {
             handleSelect(res.result);
           } else {
-            getDefaultLocation();
+            getDefaultLocation()
           }
         },
         function (error) {
-          getDefaultLocation();
+            getDefaultLocation()
         }
       );
-    }else {
-        getDefaultLocation();
-      }
+    }else{
+        getDefaultLocation()
+    }
+    
+
   };
 
   const getDefaultLocation = () => {
