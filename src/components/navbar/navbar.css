@@ -1,0 +1,132 @@
+.navbar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+    background: #F5F5F5;
+    transition: 0.2s all;
+    -webkit-box-shadow: 0px 6px 45px -22px rgba(0,0,0,0.35);
+    -moz-box-shadow: 0px 6px 45px -22px rgba(0,0,0,0.35);
+    box-shadow: 0px 6px 45px -22px rgba(0,0,0,0.35);
+    z-index: 999;
+}
+.mobile__hamburger{
+    display: none;
+}
+
+.navbar__flex {
+    width: var(--grid);
+    margin: auto;
+    height: 100%;
+}
+
+.navbar__view__toggle {
+    margin-right: 30px;
+}
+
+.navbar__view__toggle button {
+    position: relative;
+}
+
+#light {
+    bottom: -5px;
+    color: var(--button_hover);
+}
+
+#dark {
+    top: -5px;
+    color:#dfdddd;
+}
+.dark__mode #dark {
+  
+ color: #f7b500;
+}
+.dark__mode #light {
+color: #484c5e;
+}
+.navbar__navigations {
+    margin-left: auto;
+}
+
+.navbar__navigations button {
+    height: 40px;
+    background: var(--button_main);
+    margin-left: 10px;
+    padding: 0px 10px 0px 10px;
+}
+
+.navbar__navigations button:hover {
+    background: var(--button_hover);
+}
+
+.dark__mode .navbar__navigations button {
+
+    background-color: var(--dark_main);
+    color: rgba(255, 255, 255, 0.7);
+
+}
+
+
+
+.navbar__navigations button svg {
+    margin-right: 5px;
+}
+
+.dark__mode .navbar {
+    background-color: rgb(20, 20, 20);
+}
+
+
+@media only screen and (max-width: 700px){
+    .navbar{
+        height: 50px;
+    }
+    .navbar__navigations {
+        position: fixed;
+        left: 0px;
+        top: 50px;
+        height: 100vh;
+        background: white;
+        width: 100%;
+            flex-direction: column;
+          justify-content: center;
+          transform: translate(100%);
+          transition: 0.2s all;
+          padding-bottom: 50px;
+       
+    }
+    #navbar__navigations--active{
+        transform: translate(0%);
+    }
+    .navbar__navigations button{
+        margin-left: 0px;
+        margin-bottom: 40px;
+        width: 200px;
+    }
+    .mobile__hamburger{
+        margin-left: auto;
+        display: block;
+    }
+    .mobile__hamburger svg{
+        font-size: 32px;
+        transition: 0.2s all;
+    }
+    .dark__mode .mobile__hamburger svg{
+        color: white;
+    }
+    .dark__mode .navbar__navigations{
+        background: #333641;
+    }
+    #light{
+        bottom: 0px;
+        top: 2px;
+    }
+    #dark{
+        top: 0px;
+        margin-right: 20px;
+    }
+    .navbar__view__toggle button svg{
+        font-size: 30px;
+    }
+}
