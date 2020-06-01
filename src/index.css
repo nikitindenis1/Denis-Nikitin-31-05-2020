@@ -137,17 +137,16 @@ button{
   opacity: 0.8;
 }
 .loader aside{
-  animation: slide_load 2.5s linear  infinite ;
-  left: -50px;
-  height: 150%;
-  width:30%;
+  animation: slide_load 1s linear  infinite alternate;
+
+  height: 100%;
+  width:100%;
   background: white;
-  top: -20%;
+  top: 0px;
   position: absolute;
-  left: 0px;
-  filter: blur(50px);
-  transform: rotate(25deg) ;
-  opacity: 0.7;
+
+
+  
 }
 .dark__mode .loader{
   background: rgb(20, 20, 20)!important;
@@ -159,10 +158,10 @@ button{
 }
 @keyframes slide_load{
   0%{
- left: -100%;
+    opacity: 0.5;
   }
   100%{
-   left: calc(100% + 100px);
+    opacity: 0.1;
   }
 }
 
@@ -250,6 +249,11 @@ button{
   }
 }
 
+@media only screen and (max-width: 600px){
+  .loader aside{
+
+  }
+}
 
 @media only screen and (max-width: 400px){
   .no__data{

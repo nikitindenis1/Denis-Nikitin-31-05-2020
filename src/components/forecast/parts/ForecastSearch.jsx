@@ -5,6 +5,7 @@ import { withRouter } from "react-router";
 import { FORECAST_ROUTE_WITH_ID } from "../../../tools/routes";
 import Fade from "react-reveal/Fade";
 import { SearchApi, getCurrentLocationApi } from "../../../api/api";
+import { isIOS } from 'react-device-detect';
 
 const ForecastSearch = (props) => {
   const { getForecast, showError } = props;
@@ -32,9 +33,10 @@ const ForecastSearch = (props) => {
 
   //getting user location
   //if user blocking location service, we running the getDefaultLocation,
-  const getCurrentLocation = () => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
+  const getCurrentLocation = () => {  
+    
+    if (!isIOS && "geolocation" in navigator) {
+      navigator.geolocation.watchPosition(
         async function (position) {
           let lat = position.coords.latitude;
           let long = position.coords.longitude;
@@ -49,7 +51,9 @@ const ForecastSearch = (props) => {
           getDefaultLocation();
         }
       );
-    }
+    }else {
+        getDefaultLocation();
+      }
   };
 
   const getDefaultLocation = () => {

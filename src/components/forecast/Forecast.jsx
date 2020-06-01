@@ -64,32 +64,25 @@ const Forecast = () => {
     setLoading(true);
     setLocation(location);
     let key = location.Key;
-    // runing functions to get the new forcast data
-    getCurrent(key);
-    datDaily(key);
-  };
-  const datDaily = async (key) => {
-    //get daily forcast for selected location
-    const res = await getDailyForecastApi(key);
-    if (res.ok) {
-      setForecast(res.data.DailyForecasts);
-      setLoading(false);
-    } else {
-      showError();
-      setLoading(false);
-    }
+  
+     //get current forcast for selected location
+     const daily = await getCurrentConditionsApi(key);
+     if (daily.ok) {
+       setCurrentConditions(daily.data[0] ? daily.data[0] : false);
+     } else {
+       showError();
+     }
+   //get daily forcast for selected location
+   const current = await getDailyForecastApi(key);
+   if (current.ok) {
+     setForecast(current.data.DailyForecasts);
+     setLoading(false);
+   } else {
+     showError();
+     setLoading(false);
+   }
   };
 
-  const getCurrent = async (key) => {
-    //get current forcast for selected location
-    const res = await getCurrentConditionsApi(key);
-    if (res.ok) {
-      setCurrentConditions(res.data[0] ? res.data[0] : false);
-    } else {
-      showError();
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="forecast">
